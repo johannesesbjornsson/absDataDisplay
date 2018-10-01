@@ -23,12 +23,13 @@ app.get('/url', function (req, res) {
   const query = url_parts.query;
   const chartType = query['chartType'];
   const region = query['region']
-  
-  console.log(chartType, region)
+  const sex = query['sex']
+
+  console.log(chartType, region, sex)
   if (query['chartType'] == undefined){
     res.json({'error' : 'Please include chartType'});
   } else if (query['chartType'] == 'pie'){
-    const chart_data = abs.getPieData(region)
+    const chart_data = abs.getPieData(region,sex)
     res.json(chart_data)
   } else if (query['chartType'] == 'line'){
     const chart_data = abs.getLineData(region)

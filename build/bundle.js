@@ -95,7 +95,8 @@ async function getChartData(chart_type) {
   var url = new URL('http://localhost:3000/url');
   var params = {
     'chartType': chart_type,
-    'region': region
+    'region': region,
+    'sex': sex
   };
   url.search = new URLSearchParams(params);
   var result = await fetch(url).then(function (res) {

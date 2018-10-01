@@ -89,7 +89,8 @@ async function getChartData(chart_type, region="All", sex="all", div="standard")
   let url = new URL('http://localhost:3000/url');
   let params = {
     'chartType' : chart_type,
-    'region' : region
+    'region' : region,
+    'sex' : sex
   }
   url.search = new URLSearchParams(params)
   var result = await fetch(url)

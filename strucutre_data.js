@@ -17,7 +17,7 @@ function getGeoJson(){
     data.push([town, population])
 
     // For Testing //
-    if (data.length > 10){
+    if (data.length > 20){
       break;
     }
     /////////////
@@ -37,18 +37,29 @@ function getLineJson(region){
   }
   return data
 }
-function getPieData(region){
-  const data = getPieJson(region)
+function getPieData(region,sex){
+  const data = getPieJson(region,sex)
   let chart_data = [
     ['Chart thing', 'Chart amount'],
     ['Lorem ipsum', 60],
     ['Dolor sit', 222],
     ['Sit amet', 18]
   ];
+  return data;
   return chart_data;
 }
 function getPieJson(region, sex){
-  console.log('test')
+  let data = [['Chart thing', 'Chart amount']]
+  const ages = json_data['2016'][region][sex]
+  for (var age in ages){
+    if (age == "All ages"){
+      continue;
+    }
+    
+    data.push([age,ages[age]])
+
+  }
+  return data;
 }
 
 module.exports = {
