@@ -3,12 +3,10 @@
 
 var _googleCharts = require('./node_modules/google-charts/googleCharts.js');
 
-function drawChart(type, json) {
-  var div = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "standard";
-
+function drawChart(type, json, div, title) {
   _googleCharts.GoogleCharts.load(function () {
     if (type == 'pie') {
-      drawPieChart(json, div);
+      drawPieChart(json, div, title);
     } else if (type == 'line') {
       drawLineChart(json);
     } else if (type == 'geo') {
@@ -47,9 +45,9 @@ function drawGeoChart(json_obj) {
         var selection = GeoChart.getChart().getSelection();
         if (selection.length > 0) {
           var region = data.getValue(selection[0].row, 0);
-          getChartData('line', region);
-          getChartData('pie', region, 'Males', "pie_chart_1");
-          getChartData('pie', region, 'Females', "pie_chart_2");
+          getChartData('line', "Pooulation over time", region);
+          getChartData('pie', "Men - Ages", region, 'Males', "pie_chart_1");
+          getChartData('pie', "Women - Ages", region, 'Females', "pie_chart_2");
         }
       });
     });
@@ -57,40 +55,30 @@ function drawGeoChart(json_obj) {
     GeoChart.draw();
   });
 }
-/*
-function drawGeoChart(json_obj){
-  const options = {
-    region: 'AU',
-    displayMode: 'markers',
-    colorAxis: {colors: ['green', 'blue']}
-  };
-  const data = google.visualization.arrayToDataTable(json_obj)
-  const chart = new google.visualization.GeoChart(document.getElementById('geo_chart'));
-  chart.draw(data, options);
-}
-*/
+
 function drawLineChart(json_obj) {
   var data = _googleCharts.GoogleCharts.api.visualization.arrayToDataTable(json_obj);
   var line_chart = new _googleCharts.GoogleCharts.api.visualization.LineChart(document.getElementById('line_chart'));
   line_chart.draw(data);
 }
 
-function drawPieChart(json_obj, div) {
+function drawPieChart(json_obj, div, title) {
   var data = _googleCharts.GoogleCharts.api.visualization.arrayToDataTable(json_obj);
   //const pie_1_chart = new GoogleCharts.api.visualization.PieChart(document.getElementById('pie_chart'));
   var pie_1_chart = new _googleCharts.GoogleCharts.api.visualization.PieChart(document.getElementById(div));
   var options = {
     width: 400,
     height: 400,
-    title: 'My Daily Activities'
+    title: title
   };
   pie_1_chart.draw(data, options);
 }
 
 async function getChartData(chart_type) {
-  var region = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "All";
-  var sex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "all";
-  var div = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "standard";
+  var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "chart";
+  var region = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "All";
+  var sex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "all";
+  var div = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "standard";
 
   var url = new URL('http://localhost:3000/url');
   var params = {
@@ -102,7 +90,7 @@ async function getChartData(chart_type) {
   var result = await fetch(url).then(function (res) {
     return res.json();
   }).then(function (json) {
-    drawChart(chart_type, json, div);
+    drawChart(chart_type, json, div, title);
 
     return json;
   }).catch(function (err) {

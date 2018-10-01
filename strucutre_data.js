@@ -15,12 +15,12 @@ function getGeoJson(){
     let town = key //.match(/^.+?[^\(]+/g)[0].trim()
     let population = json_data['2016'][key]['Persons']['All ages']
     data.push([town, population])
-
-    // For Testing //
-    if (data.length > 20){
-      break;
-    }
-    /////////////
+ 
+  // For Testing (faster load) //
+  //  if (data.length > 25){
+  //    return data
+  //  }
+  // End Testing
   }
   return data
 }
@@ -39,27 +39,33 @@ function getLineJson(region){
 }
 function getPieData(region,sex){
   const data = getPieJson(region,sex)
-  let chart_data = [
-    ['Chart thing', 'Chart amount'],
-    ['Lorem ipsum', 60],
-    ['Dolor sit', 222],
-    ['Sit amet', 18]
-  ];
   return data;
-  return chart_data;
 }
 function getPieJson(region, sex){
   let data = [['Chart thing', 'Chart amount']]
   const ages = json_data['2016'][region][sex]
+
+  let i = 0;
+  let last;
   for (var age in ages){
     if (age == "All ages"){
       continue;
+    } else if ( (i+1) % 2  === 0 && i !==0){
+      let young = last[0].match(/^.[^\-]/)[0];
+      let old = age.match(/[^-]\d?$/)[0]
+      let ageRange = young+' - '+ old
+      if (age.match(/85 and over/)){ 
+        ageRange = "80 and over"
+      } 
+      let sum = ages[age] + last[1]
+      data.push([ageRange, sum])
+    } else {
+      last = [age, ages[age]]
     }
-    
-    data.push([age,ages[age]])
-
+    i++;
   }
   return data;
+  
 }
 
 module.exports = {
@@ -68,4 +74,4 @@ module.exports = {
   getPieData,
 }
 
-getLineData("Central Coast (C) (NSW)")
+//getPieData("Central Coast (C) (NSW)", "Males")

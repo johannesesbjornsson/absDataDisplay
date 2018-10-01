@@ -26,15 +26,16 @@ app.get('/url', function (req, res) {
   const sex = query['sex']
 
   console.log(chartType, region, sex)
-  if (query['chartType'] == undefined){
+
+  if (chartType == undefined){
     res.json({'error' : 'Please include chartType'});
-  } else if (query['chartType'] == 'pie'){
+  } else if (chartType == 'pie'){
     const chart_data = abs.getPieData(region,sex)
     res.json(chart_data)
-  } else if (query['chartType'] == 'line'){
+  } else if (chartType == 'line'){
     const chart_data = abs.getLineData(region)
     res.json(chart_data)
-  } else if (query['chartType'] == 'geo'){
+  } else if (chartType == 'geo'){
     const chart_data = abs.getGeoData()
     res.json(chart_data)
   } else {

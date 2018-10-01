@@ -2,10 +2,10 @@ import {GoogleCharts} from './node_modules/google-charts/googleCharts.js';
 
 
 
-function drawChart(type,json,div="standard" ){
+function drawChart(type,json,div,title ){
   GoogleCharts.load(function(){
     if (type == 'pie'){
-      drawPieChart(json,div)
+      drawPieChart(json,div, title)
     } else if (type == 'line'){
       drawLineChart(json)
     } else if (type == 'geo'){
@@ -44,9 +44,9 @@ function drawGeoChart(json_obj){
       var selection = GeoChart.getChart().getSelection();
       if (selection.length > 0) {
         let region = data.getValue(selection[0].row, 0)
-        getChartData('line', region)
-        getChartData('pie', region, 'Males',"pie_chart_1")
-        getChartData('pie', region, 'Females',"pie_chart_2")
+        getChartData('line', "Pooulation over time",region)
+        getChartData('pie', "Men - Ages", region, 'Males',"pie_chart_1")
+        getChartData('pie', "Women - Ages",region, 'Females',"pie_chart_2")
       }
     });
   });
@@ -55,37 +55,25 @@ function drawGeoChart(json_obj){
   });
 
 }
-/*
-function drawGeoChart(json_obj){
-  const options = {
-    region: 'AU',
-    displayMode: 'markers',
-    colorAxis: {colors: ['green', 'blue']}
-  };
-  const data = google.visualization.arrayToDataTable(json_obj)
-  const chart = new google.visualization.GeoChart(document.getElementById('geo_chart'));
-  chart.draw(data, options);
-}
-*/
+
 function drawLineChart(json_obj) {
     const data = GoogleCharts.api.visualization.arrayToDataTable(json_obj)
     const line_chart = new GoogleCharts.api.visualization.LineChart(document.getElementById('line_chart'));
     line_chart.draw(data);
 }
 
-function drawPieChart(json_obj,div) {
+function drawPieChart(json_obj,div, title){
     const data = GoogleCharts.api.visualization.arrayToDataTable(json_obj)
-    //const pie_1_chart = new GoogleCharts.api.visualization.PieChart(document.getElementById('pie_chart'));
     const pie_1_chart = new GoogleCharts.api.visualization.PieChart(document.getElementById(div));
     const options ={
        width: 400,
        height: 400,
-      title: 'My Daily Activities',
+      title: title,
     }
     pie_1_chart.draw(data, options);
 }
 
-async function getChartData(chart_type, region="All", sex="all", div="standard"){
+async function getChartData(chart_type,title="chart", region="All", sex="all", div="standard"){
   let url = new URL('http://localhost:3000/url');
   let params = {
     'chartType' : chart_type,
@@ -98,7 +86,7 @@ async function getChartData(chart_type, region="All", sex="all", div="standard")
         return res.json();
       })
       .then((json) => {
-         drawChart(chart_type,json,div)
+         drawChart(chart_type,json,div,title)
 
          return json
       })
