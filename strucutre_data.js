@@ -5,21 +5,22 @@ function getGeoData(){
   return data;
 }
 function getGeoJson(){
-  data = [['City', 'Population' ]]
+  data = [['City', 'Population', 'Full Name' ]]
   const dataToSkip = ['Australia', 'Tasmania','New South Wales', 'Western Australia', 'Queensland', 'Western Australia', 'South Australia', 'Northern Territory','Australian Capital Territory', 'Victoria']
 
   for (var key in json_data['2016']) {
     if (dataToSkip.includes(key) || !key.match(/\(C\)/)){     //Only matches with regions with (C) and not inculding above array
       continue;
     }
-    let town = key //.match(/^.+?[^\(]+/g)[0].trim()
+    let region = key //.match(/^.+?[^\(]+/g)[0].trim()
+    let town  = key.match(/^.+?[^\(]+/g)[0].trim()
     let population = json_data['2016'][key]['Persons']['All ages']
-    data.push([town, population])
+    data.push([town, population, region])
  
   // For Testing (faster load) //
-  //  if (data.length > 25){
-  //    return data
-  //  }
+ //   if (data.length > 20){
+   //   return data
+   // }
   // End Testing
   }
   return data

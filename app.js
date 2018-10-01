@@ -26,7 +26,7 @@ app.get('/url', function (req, res) {
   const sex = query['sex']
 
   console.log(chartType, region, sex)
-
+  
   if (chartType == undefined){
     res.json({'error' : 'Please include chartType'});
   } else if (chartType == 'pie'){

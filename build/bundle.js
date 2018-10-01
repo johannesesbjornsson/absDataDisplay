@@ -44,7 +44,7 @@ function drawGeoChart(json_obj) {
       google.visualization.events.addListener(GeoChart.getChart(), 'select', function () {
         var selection = GeoChart.getChart().getSelection();
         if (selection.length > 0) {
-          var region = data.getValue(selection[0].row, 0);
+          var region = data.getValue(selection[0].row, 2);
           getChartData('line', "Pooulation over time", region);
           getChartData('pie', "Men - Ages", region, 'Males', "pie_chart_1");
           getChartData('pie', "Women - Ages", region, 'Females', "pie_chart_2");
@@ -64,7 +64,6 @@ function drawLineChart(json_obj) {
 
 function drawPieChart(json_obj, div, title) {
   var data = _googleCharts.GoogleCharts.api.visualization.arrayToDataTable(json_obj);
-  //const pie_1_chart = new GoogleCharts.api.visualization.PieChart(document.getElementById('pie_chart'));
   var pie_1_chart = new _googleCharts.GoogleCharts.api.visualization.PieChart(document.getElementById(div));
   var options = {
     width: 400,

@@ -20,4 +20,4 @@ The reason I'm not showing data about more towns is because it takes too long to
 
 The code is very much dependent on the order of the json data, which isn't ideal. I know this is an easy fix, but I figured it would make the code more convoluted and would reduce it's readability.
 
-Some towns does not display even remotly close to where they are supposed to be on the geomap (Regardless if I left the (C) out or not)
+

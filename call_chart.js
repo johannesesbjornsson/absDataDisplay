@@ -43,7 +43,7 @@ function drawGeoChart(json_obj){
     google.visualization.events.addListener(GeoChart.getChart(), 'select', function () {
       var selection = GeoChart.getChart().getSelection();
       if (selection.length > 0) {
-        let region = data.getValue(selection[0].row, 0)
+        let region = data.getValue(selection[0].row, 2)
         getChartData('line', "Pooulation over time",region)
         getChartData('pie', "Men - Ages", region, 'Males',"pie_chart_1")
         getChartData('pie', "Women - Ages",region, 'Females',"pie_chart_2")
