@@ -19,16 +19,19 @@ app.get('/', function (req, res) {
 })
 
 app.get('/url', function (req, res) {
-  var url_parts = url.parse(req.url, true);
-  var query = url_parts.query;
-
+  const url_parts = url.parse(req.url, true);
+  const query = url_parts.query;
+  const chartType = query['chartType'];
+  const region = query['region']
+  
+  console.log(chartType, region)
   if (query['chartType'] == undefined){
     res.json({'error' : 'Please include chartType'});
   } else if (query['chartType'] == 'pie'){
-    const chart_data = abs.getPieData()
+    const chart_data = abs.getPieData(region)
     res.json(chart_data)
   } else if (query['chartType'] == 'line'){
-    const chart_data = abs.getLineData()
+    const chart_data = abs.getLineData(region)
     res.json(chart_data)
   } else if (query['chartType'] == 'geo'){
     const chart_data = abs.getGeoData()
