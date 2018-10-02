@@ -21,6 +21,6 @@ There were two main issues with finding data:
 The reason I'm not showing data about more towns is because it takes too long to load. So I decided to only show the city municipalities. This is not very efficient as there are plenty of municipalities in the greater Syndey and Melbourne area and it would have been smarter to combine the the data for those areas for performance. However, I couldn't find any free resource online to do this automatically, and since it would be quite time consuming to it manually I decided to leave it as is. 
 
 
-The code is very much dependent on the order of the json data, which isn't ideal. I know this is an easy fix, but I figured it would make the code more convoluted and would reduce it's readability.
+The code is very much dependent on the order of the json data, which isn't ideal. I know this is an easy fix, but I figured it would make the code more convoluted and would reduce its readability.
 
 
