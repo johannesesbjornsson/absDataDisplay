@@ -19,8 +19,8 @@ function getGeoJson(){
  
   // For Testing (faster load) //
  //   if (data.length > 20){
-   //   return data
-   // }
+ //     return data
+ //  }
   // End Testing
   }
   return data

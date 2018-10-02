@@ -7,14 +7,14 @@ function drawChart(type,json,div,title ){
     if (type == 'pie'){
       drawPieChart(json,div, title)
     } else if (type == 'line'){
-      drawLineChart(json)
-    } else if (type == 'geo'){
+      drawLineChart(json,title)
+    } else if (type == 'geo',title){
       drawGeoChart(json)
     }
   });
 }
 
-function drawGeoChart(json_obj){
+function drawGeoChart(json_obj,title){
 
   google.charts.load('current', {
   packages:['controls', 'geochart']
@@ -30,8 +30,8 @@ function drawGeoChart(json_obj){
     containerId: 'geo_chart',
     dataTable: view,
     options: {
-       width: 1200,
-       height: 800,
+       width: 1000,
+       height: 600,
       region: 'AU',
       displayMode: 'markers',
       resolution: 'provinces',
@@ -44,9 +44,9 @@ function drawGeoChart(json_obj){
       var selection = GeoChart.getChart().getSelection();
       if (selection.length > 0) {
         let region = data.getValue(selection[0].row, 2)
-        getChartData('line', "Pooulation over time",region)
-        getChartData('pie', "Men - Ages", region, 'Males',"pie_chart_1")
-        getChartData('pie', "Women - Ages",region, 'Females',"pie_chart_2")
+        getChartData('line', "Pooulation over time - "+region,region)
+        getChartData('pie', "Men: Ages - "+region+" (2016)", region, 'Males',"pie_chart_1")
+        getChartData('pie', "Women: Ages - "+region+" (2016)",region, 'Females',"pie_chart_2")
       }
     });
   });
@@ -56,10 +56,15 @@ function drawGeoChart(json_obj){
 
 }
 
-function drawLineChart(json_obj) {
+function drawLineChart(json_obj,title) {
     const data = GoogleCharts.api.visualization.arrayToDataTable(json_obj)
     const line_chart = new GoogleCharts.api.visualization.LineChart(document.getElementById('line_chart'));
-    line_chart.draw(data);
+    const options ={
+       width: 1400,
+       height: 500,
+      title: title,
+    }
+    line_chart.draw(data,options);
 }
 
 function drawPieChart(json_obj,div, title){
@@ -67,7 +72,7 @@ function drawPieChart(json_obj,div, title){
     const pie_1_chart = new GoogleCharts.api.visualization.PieChart(document.getElementById(div));
     const options ={
        width: 400,
-       height: 400,
+       height: 300,
       title: title,
     }
     pie_1_chart.draw(data, options);
@@ -94,5 +99,5 @@ async function getChartData(chart_type,title="chart", region="All", sex="all", d
 
   return result
 }
-getChartData('geo')
+getChartData('geo', "Population (2016)")
 

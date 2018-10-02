@@ -25,7 +25,6 @@ app.get('/url', function (req, res) {
   const region = query['region']
   const sex = query['sex']
 
-  console.log(chartType, region, sex)
   
   if (chartType == undefined){
     res.json({'error' : 'Please include chartType'});

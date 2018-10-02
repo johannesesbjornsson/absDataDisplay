@@ -6,7 +6,7 @@ const outFile = './abs_files/annual_data.json'
 const csv=require('csvtojson')
 
 
-async function test(inFile,outFile){ 
+async function createPopulatonJson(inFile,outFile){ 
   csv({
     'delimiter': '|',
     'includeColumns' : (/Time|Region|Age|Sex|Value/)
@@ -56,5 +56,4 @@ function writeJson(jsonList,outFile){
 
 }
 
-const jsonArray=test(inFile,outFile) //await csv().fromFile(inFile);
-
+//createPopulatonJson(inFile,outFile)
